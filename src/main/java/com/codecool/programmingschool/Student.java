@@ -12,6 +12,14 @@ public class Student extends Person {
         this.progress = 0;
     }
 
+    public Module getCurrentModule() {
+        return currentModule;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
     @Override
     public void update() {
 
