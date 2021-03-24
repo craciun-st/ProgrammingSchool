@@ -7,6 +7,11 @@ public enum Module {
         public Module nextModule() {
             return null;
         }
+
+        @Override
+        public String toString() {
+            return String.format("Advanced Module (language %s)",language);
+        }
     },
 
 
@@ -15,6 +20,11 @@ public enum Module {
         @Override
         public Module nextModule() {
             return ADVANCED;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("OOP Module (language %s)",language);
         }
     },
 
@@ -25,6 +35,11 @@ public enum Module {
         public Module nextModule() {
             return OOP;
         }
+
+        @Override
+        public String toString() {
+            return String.format("Web Module (language %s)",language);
+        }
     },
 
 
@@ -32,6 +47,11 @@ public enum Module {
         @Override
         public Module nextModule() {
             return Module.WEB;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Programming Basics Module (language %s)",language);
         }
     };
 
