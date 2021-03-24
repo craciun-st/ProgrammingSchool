@@ -1,6 +1,7 @@
 package com.codecool.programmingschool;
 
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Mentor extends Staff{
@@ -33,5 +34,19 @@ public class Mentor extends Staff{
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Mentor mentor = (Mentor) o;
+        return module == mentor.module && languages.equals(mentor.languages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), module, languages);
     }
 }
