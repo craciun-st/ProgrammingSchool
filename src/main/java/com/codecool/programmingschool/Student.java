@@ -30,4 +30,21 @@ public class Student extends Person {
     public int hashCode() {
         return Objects.hash(super.hashCode(), currentModule, progress);
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name=" + this.getName() +
+                ", phoneNumber=" + this.getPhoneNumber() +
+                ", birthDate=" + this.getBirthDate().toString() +
+                ", currentModule=" + currentModule +
+                ", progress=" + progress +
+                '}';
+    }
+
+    public String toShortenedString() {
+        return this.getName() +
+                "{progress=" + progress +
+                '}';
+    }
 }
