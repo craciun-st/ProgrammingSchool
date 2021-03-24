@@ -18,6 +18,9 @@ public class Mentor extends Staff{
 
     }
 
+    public Module getModule() {
+        return module;
+    }
 
     public void learnLanguage(ProgrammingLanguage someLanguage) {
         languages.add(someLanguage);
