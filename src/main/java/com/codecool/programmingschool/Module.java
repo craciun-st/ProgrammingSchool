@@ -36,7 +36,7 @@ public enum Module {
     };
 
 
-    public ProgrammingLanguage language;
+    public final ProgrammingLanguage language;
 
     Module(ProgrammingLanguage language) {
         this.language = language;
