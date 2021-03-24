@@ -34,4 +34,16 @@ public abstract class Person {
     public int hashCode() {
         return Objects.hash(name, phoneNumber, birthDate);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 }
