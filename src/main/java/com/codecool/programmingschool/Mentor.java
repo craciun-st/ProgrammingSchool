@@ -36,6 +36,10 @@ public class Mentor extends Staff{
         }
     }
 
+    public String toShortenedString() {
+        return this.getName();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
