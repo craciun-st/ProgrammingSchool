@@ -59,9 +59,10 @@ public class RandomGen {
         int currentYear = LocalDate.now().getYear();
         int birthYear = currentYear - age;
         int birthMonth = RandomGen.nextInt(12) + 1;
-        int birthDay = RandomGen.getRandomIntWithMeanAndStdDev(15, 7);
+        int birthDay = Math.max(RandomGen.getRandomIntWithMeanAndStdDev(15, 7),1);
+        birthDay = Math.min(birthDay, 28);
 
-        return String.format("%d-%d-%d",birthYear, birthMonth, birthDay);
+        return String.format("%04d-%02d-%02d",birthYear, birthMonth, birthDay);
     }
 
     public static String getRandomPhoneNumberString() {
