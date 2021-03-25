@@ -1,7 +1,10 @@
 package com.codecool.programmingschool;
 
+import com.codecool.programmingschool.util.RandomGen;
+
 import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 public class Mentor extends Staff{
@@ -15,7 +18,14 @@ public class Mentor extends Staff{
 
     @Override
     public void update() {
-
+        EnumSet<ProgrammingLanguage> stuffToLearn = this.getLanguagesYetToLearn();
+        if (stuffToLearn.size() > 0) {
+            int dieRoll = new Random().nextInt(100);
+            if (dieRoll < 60) {
+                ProgrammingLanguage newLanguage = RandomGen.getRandomElementFromEnumSet(stuffToLearn);
+                this.learnLanguage(newLanguage);
+            }
+        }
     }
 
     public Module getModule() {
@@ -41,6 +51,10 @@ public class Mentor extends Staff{
 
     public String toShortenedString() {
         return this.getName();
+    }
+
+    public EnumSet<ProgrammingLanguage> getLanguagesYetToLearn() {
+        return EnumSet.complementOf(languages);
     }
 
     @Override
