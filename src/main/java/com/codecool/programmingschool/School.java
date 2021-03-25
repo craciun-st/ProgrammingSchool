@@ -13,9 +13,17 @@ public class School {
         this.students = new HashSet<>();
     }
 
-    public void addStudent( Student someStudent) {
+    public void addStudent(Student someStudent) {
         if (someStudent != null) {
             students.add(someStudent);
+        }
+    }
+
+    public boolean removeStudent(Student someStudent) {
+        if (someStudent != null) {
+            return students.remove(someStudent);
+        } else {
+            return false;
         }
     }
 
