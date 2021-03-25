@@ -141,13 +141,16 @@ public class School {
         return resultMap;
     }
 
+    /** Reassigns each mentor to a (possibly new) module.  <br>
+     * The basic logic for assignment is done in this order: <br>
+     *  1. try to have one (1) mentor for each module <br>
+     *  2. loop over remaining mentors and assign for modules sorted by number of students <br>
+     *  --2a. until there is at least 1 mentor for 5 students <br>
+     *  --2b. or there are no more mentors left to assign for this module <br>
+     *  3. assign any remaining mentors to the first possible among the sorted modules <br>
+     **/
     public void reassignMentors() {
-        // the basic logic for assignment is done in this order:
-        // 1. try to have one (1) mentor for each module
-        // 2. loop over remaining mentors and assign for modules sorted by number of students
-        //  2a. until there is at least 1 mentor for 5 students
-        //  2b. or there are no more mentors left to assign for this module
-        // 3. assign any remaining mentors to the first possible among the sorted modules
+
 
         Set<Mentor> allMentors = this.getMentors();
         Set<Mentor> remainingMentors = new HashSet<>(Set.copyOf(allMentors));
