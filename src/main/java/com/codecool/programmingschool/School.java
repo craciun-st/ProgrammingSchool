@@ -49,6 +49,12 @@ public class School {
         return mentors;
     }
 
+    public Set<Student> getStudentsOnJobHunt() {
+        return students.stream()
+                .filter(Student::isOnJobHunt)
+                .collect(Collectors.toSet());
+    }
+
     public Set<SalesPerson> getSalesPersons() {
         Set<SalesPerson> salesPeople = new HashSet<>();
         for (Staff employee : employees) {
