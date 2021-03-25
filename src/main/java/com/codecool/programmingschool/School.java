@@ -156,7 +156,7 @@ public class School {
         for (Module module : nrStudentsPerModule.keySet()) {
             nrMentorsPerModule.put(module, 0);
         }
-        List<Module> sortedModules = this.getModulesSortedByPriority();
+        Module[] sortedModules = this.getModulesSortedByPriority();
 
 
         // Step 1.
@@ -206,7 +206,7 @@ public class School {
 
     }
 
-    public List<Module> getModulesSortedByPriority() {
+    public Module[] getModulesSortedByPriority() {
         Map<Module, Integer> nrStudentsPerModule = this.getNrStudentsPerModule();
         List<Module> sortedModules;
         sortedModules = nrStudentsPerModule.entrySet().stream()
@@ -215,7 +215,7 @@ public class School {
                 .collect(Collectors.toList());
         Collections.reverse(sortedModules);     // reversing gives us DESC order
 
-        return sortedModules;
+        return sortedModules.toArray(Module[]::new);
     }
 
     /**
@@ -260,7 +260,7 @@ public class School {
 
         // Hire Mentor for top-priority module every 2 units of time
         if (time % 2 == 0) {
-            List<Module> sortedModules = this.getModulesSortedByPriority();
+           Module[] sortedModules = this.getModulesSortedByPriority();
             Map<Module, Integer> nrStudentsPerModule = this.getNrStudentsPerModule();
             Map<Module, Integer> nrMentorsPerModule = this.getNrMentorsPerModule();
             for (Module module : sortedModules) {
