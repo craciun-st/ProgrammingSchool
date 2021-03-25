@@ -7,11 +7,13 @@ import java.util.Objects;
 public class Student extends Person {
     private Module currentModule;
     private int progress;
+    private boolean onJobHunt;
 
     public Student(String name, String phoneNumber, String birthDateAsString) {
         super(name, phoneNumber, birthDateAsString);
         this.currentModule = Module.PB;
         this.progress = 0;
+        this.onJobHunt = false;
     }
 
     public Module getCurrentModule() {
@@ -20,6 +22,10 @@ public class Student extends Person {
 
     public int getProgress() {
         return progress;
+    }
+
+    public boolean isOnJobHunt() {
+        return onJobHunt;
     }
 
     @Override
@@ -32,8 +38,9 @@ public class Student extends Person {
                 currentModule = moduleToMoveTo;
             } else {
                 progress = 100;
-                // should set an on Job Hunt flag here, as there is no module to move to
+
                 // (student has effectively finished the courses and should look to get hired)
+                onJobHunt = true;
             }
         }
     }
