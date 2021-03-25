@@ -16,6 +16,11 @@ public class Mentor extends Staff{
         this.languages = EnumSet.noneOf(ProgrammingLanguage.class); // empty set of ProgrammingLanguages
     }
 
+    public Mentor(String name, String phoneNumber, String birthDateAsString, double salary) {
+        super(name, phoneNumber, birthDateAsString, salary);
+        this.languages = EnumSet.noneOf(ProgrammingLanguage.class); // empty set of ProgrammingLanguages
+    }
+
     @Override
     public void update() {
         EnumSet<ProgrammingLanguage> stuffToLearn = this.getLanguagesYetToLearn();
