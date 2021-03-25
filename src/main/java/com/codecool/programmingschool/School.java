@@ -104,6 +104,7 @@ public class School {
         StringBuilder stringBuilder = new StringBuilder();
         System.out.println("Mentors assigned to "+someModule.toString()+": ");
         mentors.stream()
+                .filter(mentor -> (mentor.getModule() != null))
                 .filter(mentor -> mentor.getModule().equals(someModule))
                 .map(Mentor::toShortenedString)
                 .forEach(string -> stringBuilder.append(string).append("; "));
@@ -132,6 +133,7 @@ public class School {
         EnumSet<Module> allModules = EnumSet.allOf(Module.class);
         for (Module module : allModules) {
             currentNrMentors = Math.toIntExact(mentors.stream()
+                    .filter(mentor -> (mentor.getModule() != null))
                     .filter(mentor -> mentor.getModule().equals(module))
                     .count());
             resultMap.put(module, currentNrMentors);
