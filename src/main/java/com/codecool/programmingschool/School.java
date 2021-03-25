@@ -1,5 +1,7 @@
 package com.codecool.programmingschool;
 
+import com.codecool.programmingschool.factories.PersonFactory;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -146,12 +148,8 @@ public class School {
         for (Module module : nrStudentsPerModule.keySet()) {
             nrMentorsPerModule.put(module, 0);
         }
-        List<Module> sortedModules;
-        sortedModules = nrStudentsPerModule.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())   // sort <Key, Value> pairs in ASC order by comparing values
-                .map(entry -> entry.getKey())  // map <Key, Value> pairs to Keys (here, Module enum types)
-                .collect(Collectors.toList());
-        Collections.reverse(sortedModules);     // reversing gives us DESC order
+        List<Module> sortedModules = this.getModulesSortedByPriority();
+
 
         // Step 1.
         for (Module module : sortedModules) {
@@ -171,7 +169,7 @@ public class School {
             for (Mentor mentor : allMentors) {
 
                 int currentMentorsForThisModule = nrMentorsPerModule.get(module);
-                int idealNrMentorsForThisModule = nrStudentsPerModule.get(module) / 5;  // 2a.
+                int idealNrMentorsForThisModule = (nrStudentsPerModule.get(module) / 5) + 1;  // 2a.
 
                 if (currentMentorsForThisModule < idealNrMentorsForThisModule) {
                     if (remainingMentors.contains(mentor)) {
@@ -198,6 +196,91 @@ public class School {
             }
         }
 
+    }
+
+    public List<Module> getModulesSortedByPriority() {
+        Map<Module, Integer> nrStudentsPerModule = this.getNrStudentsPerModule();
+        List<Module> sortedModules;
+        sortedModules = nrStudentsPerModule.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())   // sort <Key, Value> pairs in ASC order by comparing values
+                .map(entry -> entry.getKey())  // map <Key, Value> pairs to Keys (here, Module enum types)
+                .collect(Collectors.toList());
+        Collections.reverse(sortedModules);     // reversing gives us DESC order
+
+        return sortedModules;
+    }
+
+    /**
+     * Updates the sets of employees and students dynamically, as a function of time. Uses methods from
+     * PersonFactory to create new Persons. Calls update on each Person.
+     * The logic is as follows:
+     * 1 SalesPerson is hired every 10 units of time if less than ideal nr (1 SalesPerson per 25 students)
+     * 1 Mentor is hired every 2 units of time if less than ideal nr (1 Mentor per 5 students in a Module)
+     * Priority is given to modules with more students in them at a given time (Hired mentors know at least
+     * the language required for said module)
+     * 0-7 (number is drawn uniformly) students are joining the School every 1 unit of time.
+     *
+     * Mentors are reassigned every 3 units of time
+     * Persons are updated every 1 unit of time
+     * Everybody gets to keep their job :)
+     * Students that are done (onJobHunt = true) are removed every 3 units of time
+     * (offset of 1 time-unit relative to mentor reassignment)
+     *
+     * @param time an integer value serving as a counter for the units of time
+     */
+    public void update(int time) {
+        // New students join every unit of time
+        int nrNewStudents = new Random().nextInt(8);
+        for (int i = 0; i < nrNewStudents; i++) {
+            this.addStudent(PersonFactory.createRandomStudent());
+        }
+
+        // Finished students leave every 3 units of time (offset of 1)
+        final int OFFSET = 1;
+        if (time % 3 == OFFSET) {
+            for (Student student : this.getStudentsOnJobHunt()) {
+                this.removeStudent(student);
+            }
+        }
+        // Hire SalesPerson
+        if (time % 10 == 0) {
+            int idealNrSalesPersons = (students.size() / 25) + 1;
+            if (this.getSalesPersons().size() < idealNrSalesPersons) {
+                this.hireEmployee(PersonFactory.createRandomSalesPerson());
+            }
+        }
+
+        // Hire Mentor for top-priority module every 2 units of time
+        if (time % 2 == 0) {
+            List<Module> sortedModules = this.getModulesSortedByPriority();
+            Map<Module, Integer> nrStudentsPerModule = this.getNrStudentsPerModule();
+            Map<Module, Integer> nrMentorsPerModule = this.getNrMentorsPerModule();
+            for (Module module : sortedModules) {
+                int idealNrMentorsForThisModule = (nrStudentsPerModule.get(module) / 5) + 1;
+                int nrMentorsInThisModule = nrMentorsPerModule.get(module);
+                if (nrMentorsInThisModule < idealNrMentorsForThisModule) {
+                    ProgrammingLanguage neededLanguage = module.language;
+                    Mentor newTeacher = PersonFactory.createRandomMentorWhichKnowsLanguage(
+                            neededLanguage
+                    );
+                    this.hireEmployee(newTeacher);
+                    break;  // no need to hire Mentors for remaining modules
+                }
+            }
+        }
+
+        // Reassign Mentors every 3 units of time
+        if (time % 3 == 0) {
+            this.reassignMentors();
+        }
+
+        // Update Persons (employees + students) every unit of time
+        for (Staff employee : employees) {
+            employee.update();
+        }
+        for (Student student : students) {
+            student.update();
+        }
 
 
     }
