@@ -14,4 +14,13 @@ public class SalesPerson extends Staff {
     public void update() {
 
     }
+
+    @Override
+    public String toString() {
+        return "SalesPerson{" +
+                "name=" + this.getName() +
+                ", phoneNumber=" + this.getPhoneNumber() +
+                ", birthDate=" + this.getBirthDate().toString() +
+                '}';
+    }
 }

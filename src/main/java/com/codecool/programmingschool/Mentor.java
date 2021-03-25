@@ -75,4 +75,15 @@ public class Mentor extends Staff{
     public int hashCode() {
         return Objects.hash(super.hashCode(), module, languages);
     }
+
+    @Override
+    public String toString() {
+        return "Mentor{" +
+                "name=" + this.getName() +
+                ", phoneNumber=" + this.getPhoneNumber() +
+                ", birthDate=" + this.getBirthDate().toString() +
+                ", module=" + (module == null ? "---" : module.toString()) +
+                ", languages=" + languages.toString() +
+                '}';
+    }
 }
