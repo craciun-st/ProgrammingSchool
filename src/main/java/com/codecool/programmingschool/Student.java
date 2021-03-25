@@ -1,5 +1,7 @@
 package com.codecool.programmingschool;
 
+import com.codecool.programmingschool.util.RandomGen;
+
 import java.util.Objects;
 
 public class Student extends Person {
@@ -22,7 +24,18 @@ public class Student extends Person {
 
     @Override
     public void update() {
-
+        progress += Math.max(RandomGen.getRandomIntWithMeanAndStdDev(33, 13), 0);
+        if (progress >= 100) {
+            Module moduleToMoveTo = currentModule.nextModule();
+            if (moduleToMoveTo != null) {
+                progress = 0;
+                currentModule = moduleToMoveTo;
+            } else {
+                progress = 100;
+                // should set an on Job Hunt flag here, as there is no module to move to
+                // (student has effectively finished the courses and should look to get hired)
+            }
+        }
     }
 
     @Override
