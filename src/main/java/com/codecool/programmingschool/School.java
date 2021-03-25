@@ -60,9 +60,15 @@ public class School {
     }
 
     public Set<Student> getStudentsOnJobHunt() {
-        return students.stream()
+        Set<Student> doneStudents;
+        doneStudents = students.stream()
                 .filter(Student::isOnJobHunt)
                 .collect(Collectors.toSet());
+        return doneStudents;
+    }
+
+    public Set<Student> getStudents() {
+        return Set.copyOf(students);
     }
 
     public Set<SalesPerson> getSalesPersons() {
